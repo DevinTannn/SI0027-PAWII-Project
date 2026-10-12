@@ -21,6 +21,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   // TODO: gunakan Mahasiswa.findByIdAndUpdate(req.params.id, req.body,
   // { new: true, runValidators: true }), bungkus try/catch
+  
 };
 
 exports.remove = async (req, res) => {
