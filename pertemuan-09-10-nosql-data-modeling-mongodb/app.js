@@ -18,5 +18,5 @@ app.use('/mahasiswa', mahasiswaRoutes);
 app.use('/prodi', prodiRoutes);
 
 mongoose.connect(process.env.MONGODB_URI)
-.then(() => { console.log('Terhubung ke MongoDB Atlas'); app.listen(PORT, () => { console.log(`Server berjalan di port ${PORT}`); }); })
+.then(() => { console.log('Terhubung ke MongoDB Atlas'); app.listen(PORT, () => { console.log(`Server berjalan di https://localhost:${PORT}`); }); })
 .catch((err) => console.error('Gagal terhubung:', err.message));
