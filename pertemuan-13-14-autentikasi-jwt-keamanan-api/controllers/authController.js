@@ -11,6 +11,10 @@ exports.register = async (req, res) => {
   // TODO: simpan user baru dengan User.create({ username, password: hashed })
   // TODO: kirim res.status(201).json({ id: user._id, username: user.username })
   // (JANGAN pernah mengirim balik password, meski sudah di-hash)
+  const { username, password } = req.body;
+  const hashed = await bcrypt.hash(password, 10);
+  const user = await User.create({ username, password: hashed });
+  res.status(201).json({ id: user._id, username: user.username });
 };
 
 exports.login = async (req, res) => {
@@ -22,4 +26,17 @@ exports.login = async (req, res) => {
   // TODO: buat token dengan jwt.sign({ id: user._id, username: user.username },
   //   process.env.JWT_SECRET, { expiresIn: '1h' })
   // TODO: kirim res.json({ token })
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (!user) throw { status: 401, message: 'Username/password salah' };
+ 
+  const cocok = await bcrypt.compare(password, user.password);
+  if (!cocok) throw { status: 401, message: 'Username/password salah' };
+ 
+  const token = jwt.sign(
+    { id: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
+  res.json({ token });
 };
