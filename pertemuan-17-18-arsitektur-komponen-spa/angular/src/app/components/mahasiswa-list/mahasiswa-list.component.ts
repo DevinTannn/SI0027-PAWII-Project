@@ -3,13 +3,17 @@
 
 import { Component, Input } from '@angular/core';
 import { Mahasiswa } from '../../mahasiswa.model';
+import { CommonModule } from '@angular/common';
+import { MahasiswaCardComponent } from '../mahasiswa-card/mahasiswa-card.component';
 
 @Component({
   selector: 'app-mahasiswa-list',
   standalone: true,
   imports: [
     // TODO: tambahkan CommonModule dari '@angular/common' (untuk *ngIf/*ngFor)
+    CommonModule,
     // TODO: tambahkan MahasiswaCardComponent dari '../mahasiswa-card/mahasiswa-card.component'
+    MahasiswaCardComponent
   
   ],
   templateUrl: './mahasiswa-list.component.html',
