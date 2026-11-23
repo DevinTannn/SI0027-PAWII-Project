@@ -7,6 +7,12 @@ function validate(form) {
   const errors = {};
   // TODO: jika form.nama kosong (setelah di-trim), set errors.nama = 'Nama wajib diisi'
   // TODO: jika form.nim TIDAK cocok pola 7 digit angka (/^\d{7}$/), set errors.nim = 'NIM harus 7 digit angka'
+  if (form.nama.trim() === "") {
+    errors.nama = "Nama wajib diisi";
+  }
+  if (/^\d{7}$/.test(form.nim) === false) {
+    errors.nim = "NIM harus 7 digit angka";
+  }
   return errors;
 }
 
@@ -29,11 +35,18 @@ function MahasiswaForm({ onTambah }) {
   function handleSubmit(e) {
     e.preventDefault();
     // TODO: panggil validate(form), simpan hasilnya ke variabel & ke setErrors()
+    const validationErrors = validate(form);
+    setErrors(validationErrors);
     // TODO: set touched jadi { nama: true, nim: true }
+    setTouched({ nama: true, nim: true });
     // TODO: jika masih ada error (Object.keys(...).length > 0), hentikan dengan return
-
+    if (Object.keys(validationErrors).length > 0) return;
     // TODO: panggil onTambah({ id: Date.now(), ...form })
+    onTambah({ id: Date.now(), ...form });
     // TODO: kosongkan kembali form, touched, dan errors
+    setForm({ nama: "", nim: "" });
+    setTouched({});
+    setErrors({});
   }
 
   return (
@@ -56,8 +69,46 @@ function MahasiswaForm({ onTambah }) {
           value={form.nim}
           onChange={handleChange}
           onBlur={handleBlur}
+          type="number"
         />
         {touched.nim && errors.nim && <span className="error">{errors.nim}</span>}
+      </div>
+
+      <div className="select-field">
+        <select name="kelas" value={form.kelas} onChange={handleChange} onBlur={handleBlur}>
+          <option value="">Pilih Kelas</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+        </select>
+        {touched.kelas && errors.kelas && <span className="error">{errors.kelas}</span>}
+      </div>
+
+      <div className="radio-field">
+        <label>
+          <input
+            type="radio"
+            name="jenisKelamin"
+            value="L"
+            checked={form.jenisKelamin === "L"}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          Laki-laki
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="jenisKelamin"
+            value="P"
+            checked={form.jenisKelamin === "P"}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          Perempuan
+        </label>
+        {touched.jenisKelamin && errors.jenisKelamin && (
+          <span className="error">{errors.jenisKelamin}</span>
+        )}
       </div>
 
       <button type="submit" disabled={Object.keys(validate(form)).length > 0}>
