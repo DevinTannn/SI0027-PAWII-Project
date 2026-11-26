@@ -7,5 +7,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // TODO: baca token dari localStorage.getItem('token')
   // TODO: jika tidak ada token, return next(req) apa adanya
   // TODO: jika ada token, return next(req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }))
-  return next(req);
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return next(req);
+  }
+
+  const clonedReq = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return next(clonedReq);
 };

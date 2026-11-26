@@ -6,7 +6,7 @@ import { useState } from "react";
 function validate(form) {
   const errors = {};
   if (!form.nama.trim()) errors.nama = "Nama wajib diisi";
-  if (!/^\d{7}$/.test(form.nim)) errors.nim = "NIM harus 7 digit angka";
+  if (!/^\d{10}$/.test(form.nim)) errors.nim = "NIM harus 10 digit angka";
   return errors;
 }
 
@@ -55,7 +55,7 @@ function MahasiswaForm({ onTambah }) {
       <div className="field">
         <input
           name="nim"
-          placeholder="NIM (7 digit)"
+          placeholder="NIM (10 digit)"
           value={form.nim}
           onChange={handleChange}
           onBlur={handleBlur}

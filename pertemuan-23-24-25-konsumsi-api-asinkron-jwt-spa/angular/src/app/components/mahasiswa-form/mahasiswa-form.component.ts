@@ -25,5 +25,11 @@ export class MahasiswaFormComponent {
     // TODO: jika this.form.invalid, panggil this.form.markAllAsTouched() lalu return
     // TODO: panggil this.tambah.emit(this.form.value as { nama: string; nim: string })
     // TODO: reset form dengan this.form.reset({ nama: '', nim: '' })
+    this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      return;
+    }
+    this.tambah.emit(this.form.value as { nama: string; nim: string });
+    this.form.reset({ nama: '', nim: '' });
   }
 }

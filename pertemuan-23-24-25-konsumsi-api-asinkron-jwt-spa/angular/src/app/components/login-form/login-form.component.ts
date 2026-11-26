@@ -31,5 +31,14 @@ export class LoginFormComponent {
     //   },
     //   error: () => { this.error = 'Username/password salah'; },
     // });
+    this.authService.login(this.username, this.password).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        this.loginBerhasil.emit();
+      },
+      error: () => {
+        this.error = 'Username/password salah';
+      },
+    });
   }
 }
